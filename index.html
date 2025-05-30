@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blodecon</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+</head>
+<body>
+<div class="contenido">
+  <nav class="navbar navbar-expand-md bg-warning p-0 mb-3 shadow">
+    <div class="container-fluid">
+
+      <!-- Logo -->
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img class="imgNav1 m-0 p-0" src="img/BLODECON-logo-removebg.png" alt="Logo de la empresa" style="height: 50px;">
+      </a>
+
+      <!-- Botón de colapso -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Contenido del menú -->
+<div class="collapse navbar-collapse" id="navbarNav">
+  <ul class="navbar-nav nav-underline me-auto">
+    <li class="nav-item p-2">
+      <a class="nav-link active" aria-current="page" href="#"><h5 class="m-0">Inicio</h5></a>
+    </li>
+    <li class="nav-item p-2">
+      <a class="nav-link active" href="#"><h5 class="m-0">Productos</h5></a>
+    </li>
+    <li class="nav-item p-2">
+      <a class="nav-link active" href="#"><h5 class="m-0">Cotizar</h5></a>
+    </li>
+    <li class="nav-item p-2">
+      <a class="nav-link active" href="#"><h5 class="m-0">Ubicación</h5></a>
+    </li>
+  </ul>
+
+  <!-- Íconos juntos: usuario y carrito -->
+  <div class="d-flex align-items-center ms-auto me-3 gap-3"> <!-- Se usa gap para separar suavemente los íconos -->
+    <!-- Ícono usuario -->
+   <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="cuenta" viewBox="0 0 16 16">
+      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+    </svg>
+  </a>
+  
+
+    <!-- Ícono carrito y contador -->
+    <div class="position-relative">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" fill="currentColor" class="carro-icon" viewBox="0 0 16 16" style="cursor: pointer;">
+        <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+      </svg>
+          <span class="cart-count"></span>
+    </div>
+  </div>
+</div>
+  </nav>
+
+  <!-- Dropdown del carrito -->
+  <div class="cart-dropdown bg-white shadow p-3 rounded position-absolute" style="display: none; right: 10px; top: 70px; z-index: 1000; width: 300px;">
+    <p class="fw-bold text-center">BOLSA DE COMPRAS</p>
+    <div class="empty text-center text-muted">Tu carrito está vacío :(</div>
+    <span class="close-cart position-absolute top-0 end-0 m-2" style="cursor: pointer;">&times;</span>
+    <div class="cart-items mt-3"></div>
+    <div id="total-price" class="fw-bold text-end mt-3">Total: $0.00</div>
+  </div>
+</div>
+
+
+
+  <!-- Modal de Inicio de Sesión -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <h5 class="modal-title w-100 text-center" id="loginModalLabel">Iniciar Sesión</h5>
+           <h5 class="modal-title w-100 text-center d-none" id="tituloPerfil">Información Personal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="email" class="correo" id="email4">Correo Electrónico</label>
+              <input type="text" class="form-control" id="email" placeholder="nombre@ejemplo.com" >
+              <span id="error-email"></span>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="contraseña" id="password4">Contraseña</label>
+              <div class="input-group">
+              <input type="password" class="form-control" id="password" placeholder="Contraseña">
+              <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                <i class="bi bi-eye fs-6"></i> <!-- Ícono de ojo de Bootstrap Icons -->
+              </button>
+            </div>
+            <span id="error-password mt-4"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100" id="button">Iniciar Sesion</button>
+            <div class="horizontal" id="ocultar">
+            <p >¿Olvidaste la contraseña?</p>  <a class="registro" href="#" data-bs-toggle="modal" data-bs-target="#Modalregister"><p >Registrarse</p> </a>
+          </div>
+          <!-- Informacion del usuario-->
+            <div id="userProfile" class="d-none text-center mt-4">
+          
+  <img src="img/blank-profile-picture-973460_960_720.webp" alt="Foto usuario" class="img-thumbnail rounded-circle" width="120">
+  <h4 id="userName"></h4>
+  <p id="userEmail"></p>
+  <p id="userTelefono"></p>
+  <div id="userPedidos">
+    <h5>Pedidos:</h5>
+    <p>No tienes pedidos aún.</p>
+  </div>
+  <button class="btn btn-danger mt-2" id="logoutBtn">Cerrar Sesión</button>
+</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--Modal registro-->
+  <div class="modal" id="Modalregister" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- Flecha de retroceso -->
+          <button type="button" class="btn btn-link " data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal" style="position: absolute; left: 10px; top: 10px; color: black;">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+
+          <h5 class="titlemodal w-100 text-center " id="loginModalLabel">Registrarse</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+              <div class="mb-3">
+            <label for="nombre" class="nombre">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="apellido" class="apellido">Apellido</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Ingrese su apellido" required>
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="telefono">Teléfono</label>
+            <input type="tel" class="form-control" id="telefono" placeholder="Ingrese su contacto" required>
+          </div>
+           <div class="mb-3">
+              <label for="email" class="correo">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email1" placeholder="nombre@ejemplo.com" >
+            </div>
+            <div class="mb-3">
+              <label for="password" class="contraseña">Contraseña</label>
+              <div class="input-group">
+              <input type="password" class="form-control" id="password1" placeholder="Contraseña">
+              <button type="button" class="btn btn-outline-secondary" id="togglePassword1">
+                <i class="bi bi-eye fs-6"></i> <!-- Ícono de ojo de Bootstrap Icons -->
+              </button>
+            </div>
+          </div>
+            <button type="submit" class="btn btn-primary w-100" id="button1">Registrarse</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+      
+  </div>
+         
+
+  </nav>
+  <div class="">
+    <img class="imgEntrada img-fluid" src="img/Bloque 4.jpg" alt="">
+  </div>
+    <div class="container-fluid row d-flex mb-5">
+      <div class="col-md-6 d-flex flex-column justify-content-center p-4">
+        <h3 class="bg-warning rounded p-2">BLODECON</h3>
+        <h5 class="">¿QUIENES SOMOS?</h5> <hr>
+        <h6 class="shadow rounded">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, impedit perferendis. Quae provident perferendis accusamus quam sit saepe quos repellendus asperiores nesciunt? Quidem, placeat delectus nulla non accusamus fugit. Numquam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae, quo consequuntur? Eligendi, nemo dolorem aliquam culpa temporibus earum voluptatum placeat labore dolore provident enim vitae ut nulla quia minus pariatur. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod repellat quis commodi numquam cum veniam saepe iste quasi, porro laboriosam amet recusandae dicta facilis nisi aspernatur perferendis non ipsum et?</h6> <br>
+      </div>
+      <div class="col-md-5 justify-content-center align-items-center">
+        <img class="img-fluid" src="img/Bloque 2.jpg" alt="Imagen">
+      </div>
+      <div class="col-md-1 text-center flex-column justify-content-center align-items-center">
+        <a href="#">
+        <img class="imgInfo img-fluid" src="img/telefono.png" title="Contactanos">
+        <img class="imgInfo img-fluid" src="img/hablar.png" title="Comentarios">
+        <img class="imgInfo img-fluid" src="img/Cotizar.png" title="Cotizaciones">
+        </a>
+      </div>
+    <div class="m-2 accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="bg-warning accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">MISION DE LA EMPRESA</button>
+        </h2>
+        <div id="collapseOne" class="border-warning accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="mt-3 accordion-body">
+            <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="bg-warning accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">VISION DE LA EMPRESA</button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="border-warning accordion-body">
+            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <hr class="text-success mt-5"><br>
+    <h3 class="text-center bg-warning m-3 p-2 rounded">NUESTROS PRODUCTOS</h3><br>
+    <h5 class="text-center p-2">Por el momento solo contamos con un catalogo de 4 productos en nuestra empresa, pero siempre ofreciendo la mejor calidad y durabilidad de nuestros productos para todo tipo de obras.</h5>
+    <div class="row row-cols-1 row-cols-md-4 g-4 m-2">
+      <div class="col">
+        <div class="shadow card">
+          <img src="img/Bloque 1.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Bloque de 10</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+               <p id="price" class="price">$ 5000</p>
+
+
+              <a href="#" class="btn btn-primary add-to-cart ">Agregar  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon " 
+            viewBox="0 0 16 16" style="cursor: pointer;">
+            <path
+              d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+          </svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="shadow card">
+          <img src="img/Bloque 1.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Bloque de 12</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+               <p id="price" class="price">$ 5000</p>
+              <a href="#" class="btn btn-primary add-to-cart ">Agregar  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon " 
+            viewBox="0 0 16 16" style="cursor: pointer;">
+            <path
+              d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+          </svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="shadow card">
+          <img src="img/Bloque 1.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Bloque de 15</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+               <p id="price" class="price">$ 5000</p>
+              <a href="#" class="btn btn-primary add-to-cart ">Agregar  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon " 
+            viewBox="0 0 16 16" style="cursor: pointer;">
+            <path
+              d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+          </svg></a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="shadow card">
+          <img src="img/Bloque 1.png" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Bloque de 20</h5>
+            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+               <p id="price" class="price">$ 5000</p>
+             <a href="#" class="btn btn-primary add-to-cart ">Agregar  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon " 
+            viewBox="0 0 16 16" style="cursor: pointer;">
+            <path
+              d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+          </svg></a>
+          </div>
+        </div>
+      </div>
+    </div><br>
+<!-- ==================================================================================== -->
+   
+    <div class="text-center">
+     <hr class="mt-3">
+     <h3 class="text-warning mb-3">¡Tambien puedes visitarnos en nuestro punto fisico!</h3>
+     <h4 class="">Estamos ubicados en la ciudad de Medellin.</h4>
+     <h4>En el sector de San Antonio de Prado Y atendemos a gran parten del valle de aburra.</h4>
+     <iframe class= " Ubicación w-100 p-3" src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3966.6379867889073!2d-75.65322832500988!3d6.179187893808267!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMTAnNDUuMSJOIDc1wrAzOScwMi40Ilc!5e0!3m2!1ses!2sco!4v1729639277085!5m2!1ses!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+  <div class="container-fluid row m-1 text-white bg-secondary">
+    <div class="col-md-6 text-center">
+      <h4 class="text-warning">Datos de contacto con  el jefe encargado</h4>
+      <h4>WhatsApp: 390-993-15-05</h4>
+      <h4 >Correo: Alexander@gmail.com</h4>
+    </div>
+    <div class="col-md-6 text-center">
+      <h4 class="text-warning">Horarios de atencion</h4>
+      <h5>Disponibles de 7 AM a 7 PM De Lunes a Sabado</h5>
+    </div>
+   
+  <div>
+  <a href="#" class="imgWpp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+      <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"/>
+    </svg>
+    <span alt="Imagen de WhatsApp"></span>
+  </a>
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+
+
+
+</html>
