@@ -182,7 +182,7 @@ if (expresionEmail.test(email.value) && pass.value.length >= 6) {
       .then(response => response.json().then(data => ({ status: response.status, body: data })))
       .then(result => {
      if (result.status === 200) {
-        
+         
        const usuario = result.body.usuario;
 
         // Mostrar datos del usuario
@@ -191,7 +191,7 @@ if (expresionEmail.test(email.value) && pass.value.length >= 6) {
         document.getElementById("userTelefono").textContent = "Tel: " + usuario.telefono;
 
 
-      
+       
 
         // Ocultar botones de login y registro
         document.getElementById("button1").classList.add("d-none");
@@ -209,9 +209,34 @@ if (expresionEmail.test(email.value) && pass.value.length >= 6) {
   document.getElementById("loginModalLabel")?.classList.add("d-none");
   document.getElementById("tituloPerfil")?.classList.remove("d-none");
 
+    // Inyectar link administrador si aplica
+  if (usuario.rol === "Administrador") {
+    const adminLink = document.createElement("a");
+    adminLink.href = "admin.html";
+    adminLink.innerText = "Apartado Administrador";
+    adminLink.style.display = "block";
+    adminLink.style.marginTop = "10px";
+    adminLink.style.color = "black";              
+    adminLink.style.textDecoration = "none";      
+    adminLink.style.fontWeight = "bold";         
+    adminLink.style.fontSize = "16px";        
+    document.getElementById("userProfile").appendChild(adminLink);
+  }
+
+  document.querySelector("#loginModal form").reset();
       
  document.getElementById("userProfile").classList.remove("d-none");
        
+// Agregar evento para cerrar sesión
+document.getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+    await fetch("https://localhost:7256/api/Usuario/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    window.location.reload();
+  });
+
 
 
         // Resetear formulario de login
@@ -236,6 +261,8 @@ const button1= document.getElementById("button1")
 const expresionEmail1 = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nombre= document.getElementById("nombre")
 const apellido= document.getElementById("apellido")
+const soloLetras = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/;
+const soloNumeros = /^[0-9]+$/;
 const telefono= document.getElementById("telefono")
 const togglePassword1 = document.getElementById("togglePassword1");
 
@@ -272,16 +299,16 @@ button1.addEventListener("click", async (e) => {
     valid = false;
   }
 
-  if(nombre.value.length <2){
-    showError(nombre, "complete su nombre por favor");
+ if (!soloLetras.test(nombre.value)) {
+    showError(nombre, "su nombre solo debe ser letras");
     valid = false;
   }
-  if(apellido.value.length <3){
-    showError(apellido, "complete su apellido por favor");
+if (!soloLetras.test(apellido.value)) {
+    showError(apellido, "su apellido debe ser letras");
     valid = false;
   }
-  if(telefono.value.length <6){
-    showError(telefono, "complete su telefono por favor");
+ if (!soloNumeros.test(telefono.value)) {
+    showError(telefono, "solo puede agregar numeros");
     valid = false;
   }
 
@@ -308,35 +335,72 @@ button1.addEventListener("click", async (e) => {
 
     const data = await response.json();
 
-    if (response.ok) {
+   if (response.ok) {
       alert(data.mensaje || 'Usuario registrado correctamente.');
 
-      // Ocultar formulario de registro
-      document.getElementById("button1").classList.add("d-none");
-      document.getElementById("button").classList.add("d-none");
-      document.getElementById("email").classList.add("d-none");
-      document.getElementById("email4").classList.add("d-none");
-      document.getElementById("password").classList.add("d-none");
-      document.getElementById("password4").classList.add("d-none");
-      document.getElementById("togglePassword").classList.add("d-none");
-      document.getElementById("ocultar").classList.add("d-none");
+      // Login automático
+      const loginData = {
+        email: usuario.email,
+        password: usuario.password
+      };
 
-      // Ocultar título del login y mostrar título del perfil
-      document.getElementById("loginModalLabel")?.classList.add("d-none");
-      document.getElementById("tituloPerfil")?.classList.remove("d-none");
+      try {
+        const loginResponse = await fetch("https://localhost:7256/api/Usuario/login", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(loginData)
+        });
 
-      // Mostrar perfil del usuario registrado
-      document.getElementById("userProfile").classList.remove("d-none");
-      document.getElementById("userName").textContent = usuario.nombre + " " + usuario.apellido;
-      document.getElementById("userEmail").textContent = usuario.email;
-      document.getElementById("userTelefono").textContent = "Tel: " + usuario.telefono;
+        if (loginResponse.ok) {
+          const loginResult = await loginResponse.json();
+          const usuarioLogueado = loginResult.usuario;
 
-      // Cerrar modal
-      const modal = bootstrap.Modal.getInstance(document.getElementById('Modalregister'));
-      if (modal) modal.hide();
+          // Ocultar formulario de registro
+          document.getElementById("button1").classList.add("d-none");
+          document.getElementById("button").classList.add("d-none");
+          document.getElementById("email").classList.add("d-none");
+          document.getElementById("email4").classList.add("d-none");
+          document.getElementById("password").classList.add("d-none");
+          document.getElementById("password4").classList.add("d-none");
+          document.getElementById("togglePassword").classList.add("d-none");
+          document.getElementById("ocultar").classList.add("d-none");
 
-      // Limpiar formulario de registro
-      document.querySelector("#Modalregister form")?.reset();
+          document.getElementById("loginModalLabel")?.classList.add("d-none");
+          document.getElementById("tituloPerfil")?.classList.remove("d-none");
+
+          document.getElementById("userProfile").classList.remove("d-none");
+          document.getElementById("userName").textContent = usuarioLogueado.nombre + " " + usuarioLogueado.apellido;
+          document.getElementById("userEmail").textContent = usuarioLogueado.email;
+          document.getElementById("userTelefono").textContent = "Tel: " + usuarioLogueado.telefono;
+
+          
+
+          // Agregar evento para cerrar sesión
+document.getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+    await fetch("https://localhost:7256/api/Usuario/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    window.location.reload();
+  });
+
+
+
+          const modal = bootstrap.Modal.getInstance(document.getElementById('Modalregister'));
+          if (modal) modal.hide();
+
+          document.querySelector("#Modalregister form")?.reset();
+        } else {
+          showError(email1, "Error al iniciar sesión automáticamente.");
+        }
+      } catch (error) {
+        console.error("Error durante el login automático:", error);
+        showError(email1, "No se pudo iniciar sesión automáticamente.");
+      }
     } else {
       showError(email1, data.mensaje || "Error al registrar el usuario.");
     }
@@ -345,6 +409,11 @@ button1.addEventListener("click", async (e) => {
     showError(email1, "No se pudo conectar con el servidor.");
   }
 });
+
+
+
+
+
 ////sesion
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -363,9 +432,47 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       userProfile.classList.remove("d-none");
 
-      // Opcional: ocultar botón de login en navbar
-      document.querySelector(".cuenta").parentElement.classList.add("d-none");
+
+       // Ocultar formulario de registro
+      document.getElementById("button1").classList.add("d-none");
+      document.getElementById("button").classList.add("d-none");
+      document.getElementById("email").classList.add("d-none");
+      document.getElementById("email4").classList.add("d-none");
+      document.getElementById("password").classList.add("d-none");
+      document.getElementById("password4").classList.add("d-none");
+      document.getElementById("togglePassword").classList.add("d-none");
+      document.getElementById("ocultar").classList.add("d-none");
+
+      
+      // Ocultar título del login y mostrar título del perfil
+      document.getElementById("loginModalLabel")?.classList.add("d-none");
+      document.getElementById("tituloPerfil")?.classList.remove("d-none");
+      
+   
+      // 4) Si el rol es Administrador
+      if (data.rol === "Administrador") {
+        const adminLink = document.createElement("a");
+        adminLink.href = "admin.html";        
+        adminLink.innerText = "Apartado Administrador";
+        adminLink.style.color = "black";  
+        adminLink.style.textDecoration = "none"; 
+       adminLink.style.fontWeight = "bold";    
+        adminLink.style.display = "block";      // para que ocupe toda la línea
+        adminLink.style.marginTop = "10px";
+        
+        userProfile.appendChild(adminLink);
+      }
+     document.getElementById("logoutBtn")
+  .addEventListener("click", async () => {
+    await fetch("https://localhost:7256/api/Usuario/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+    window.location.reload();
+  });
     }
+
+    
 
   } catch (error) {
     console.error("Error al verificar sesión:", error);
@@ -412,4 +519,69 @@ function clearError(input) {
 }
 
 
+//
 
+
+//cargar
+async function cargarProductos() {
+  try {
+    const res = await fetch("https://localhost:7256/api/Productos");
+    const productos = await res.json();
+
+    const container = document.getElementById("productos-container");
+    container.innerHTML = ""; // Limpia antes de cargar
+
+    productos.forEach(producto => {
+      const tarjeta = document.createElement("div");
+      tarjeta.className = "col";
+
+      tarjeta.innerHTML = `
+        <div class="col">
+    <div class="shadow card h-100">
+      <img src="https://localhost:7256/${producto.imagenUrl}" class="card-img-top" alt="${producto.nombre}">
+      <div class="card-body">
+        <h5 class="card-title">${producto.nombre}</h5>
+        <p class="card-text">${producto.descripcion}</p>
+        <p class="card-text">Medidas: ${producto.medidas}</p>
+        <p id="price" class="price"><strong>${producto.precio} $</strong></p>
+        <a href="#" class="btn btn-primary add-to-cart">Agregar  
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon" 
+            viewBox="0 0 16 16" style="cursor: pointer;">
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+`;
+      container.appendChild(tarjeta);
+    });
+  } catch (error) {
+    console.error("Error cargando productos:", error);
+  }
+  // Reasignar eventos de agregar al carrito después de cargar productos dinámicos
+const nuevosBotones = document.querySelectorAll('.add-to-cart');
+nuevosBotones.forEach((button) => {
+  button.addEventListener('click', () => {
+    const card = button.closest('.card');
+    const title = card.querySelector('.card-title').textContent;
+    const description = card.querySelector('.card-text').textContent;
+    const imgSrc = card.querySelector('img').src;
+    const price = card.querySelector('.price').textContent;
+
+    const existingItem = cart.find(item => item.title === title);
+
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      cart.push({ title, description, imgSrc, price, quantity: 1 });
+    }
+
+    renderCart();
+  });
+});
+
+}
+
+// Cargar productos al iniciar
+window.addEventListener("DOMContentLoaded", cargarProductos);

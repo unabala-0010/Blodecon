@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APARTADO ADMINISTRADOR</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+     <!-- Sidebar -->
+  <div class="sidebar">
+    <a onclick="mostrarSeccion('productos')">Productos</a>
+    <a onclick="mostrarSeccion('usuarios')">Usuarios</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <!-- CRUD de Productos -->
+    <div id="seccion-productos">
+      <h3>Crear nuevo producto</h3>
+      <input type="text" id="nombreProducto" placeholder="Nombre">
+      <input type="number" id="precioProducto" placeholder="Precio">
+      <input type="text" id="descripcionProducto" placeholder="Descripción">
+      <input type="text" id="medidasProducto" placeholder="Medidas">
+      <input type="number" id="cantidadProducto" placeholder="Cantidad">
+      <input type="file" id="imagenProducto">
+      <button onclick="crearProducto()">Crear Producto</button>
+
+      <h3>Modificar Productos</h3>
+      <div id="productos-container" class="row row-cols-1 row-cols-md-4 g-4">
+        <!-- Productos aquí -->
+      </div>
+    </div>
+
+    <!-- CRUD de Usuarios -->
+    <div id="seccion-usuarios" class="hidden">
+      <h3>Gestionar Usuarios</h3>
+      <div id="usuarios-container">
+        <!-- Usuarios aquí -->
+      </div>
+    </div>
+  </div>
+<script src="js/admin.js"></script>
+</body>
+</html>
