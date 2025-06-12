@@ -30,7 +30,7 @@ addToCartButtons.forEach((button, index) => {
     const description = card.querySelector('.card-text').textContent;
     const imgSrc = card.querySelector('img').src;
     const price=card.querySelector('.price').textContent;
-
+       
     const existingItem = cart.find(item => item.title === title);
 
     if (existingItem) {
@@ -170,7 +170,7 @@ if (expresionEmail.test(email.value) && pass.value.length >= 6) {
         password: pass.value.trim()
       };
 
-      fetch("https://localhost:7256/api/Usuario/login", {
+      fetch("https://localhost:7042/api/Usuario/login", {
         method: "POST",
         credentials: "include", //
         headers: {
@@ -230,7 +230,7 @@ if (expresionEmail.test(email.value) && pass.value.length >= 6) {
 // Agregar evento para cerrar sesión
 document.getElementById("logoutBtn")
   .addEventListener("click", async () => {
-    await fetch("https://localhost:7256/api/Usuario/logout", {
+    await fetch("https://localhost:7042/api/Usuario/logout", {
       method: "POST",
       credentials: "include"
     });
@@ -324,7 +324,7 @@ if (!soloLetras.test(apellido.value)) {
   };
 
  try {
-    const response = await fetch('https://localhost:7256/api/Usuario', {
+    const response = await fetch('https://localhost:7042/api/Usuario', {
       method: 'POST',
       credentials: "include", //
       headers: {
@@ -345,7 +345,7 @@ if (!soloLetras.test(apellido.value)) {
       };
 
       try {
-        const loginResponse = await fetch("https://localhost:7256/api/Usuario/login", {
+        const loginResponse = await fetch("https://localhost:7042/api/Usuario/login", {
           method: "POST",
           credentials: "include",
           headers: {
@@ -381,7 +381,7 @@ if (!soloLetras.test(apellido.value)) {
           // Agregar evento para cerrar sesión
 document.getElementById("logoutBtn")
   .addEventListener("click", async () => {
-    await fetch("https://localhost:7256/api/Usuario/logout", {
+    await fetch("https://localhost:7042/api/Usuario/logout", {
       method: "POST",
       credentials: "include"
     });
@@ -417,7 +417,7 @@ document.getElementById("logoutBtn")
 ////sesion
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("https://localhost:7256/api/Usuario/sesion-activa", {
+    const response = await fetch("https://localhost:7042/api/Usuario/sesion-activa", {
       credentials: "include" // muy importante para que la sesión viaje
     });
 
@@ -464,7 +464,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
      document.getElementById("logoutBtn")
   .addEventListener("click", async () => {
-    await fetch("https://localhost:7256/api/Usuario/logout", {
+    await fetch("https://localhost:7042/api/Usuario/logout", {
       method: "POST",
       credentials: "include"
     });
@@ -525,7 +525,7 @@ function clearError(input) {
 //cargar
 async function cargarProductos() {
   try {
-    const res = await fetch("https://localhost:7256/api/Productos");
+    const res = await fetch("https://localhost:7042/api/Productos");
     const productos = await res.json();
 
     const container = document.getElementById("productos-container");
@@ -538,18 +538,19 @@ async function cargarProductos() {
       tarjeta.innerHTML = `
         <div class="col">
     <div class="shadow card h-100">
-      <img src="https://localhost:7256/${producto.imagenUrl}" class="card-img-top" alt="${producto.nombre}">
+      <img src="https://localhost:7042/${producto.imagenUrl}" class="card-img-top" alt="${producto.nombre}">
       <div class="card-body">
         <h5 class="card-title">${producto.nombre}</h5>
         <p class="card-text">${producto.descripcion}</p>
         <p class="card-text">Medidas: ${producto.medidas}</p>
         <p id="price" class="price"><strong>${producto.precio} $</strong></p>
-        <a href="#" class="btn btn-primary add-to-cart">Agregar  
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon" 
-            viewBox="0 0 16 16" style="cursor: pointer;">
-            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-          </svg>
-        </a>
+        <button type="button" class="btn btn-primary add-to-cart"> Agregar  
+       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="carro-icon" 
+       viewBox="0 0 16 16" style="cursor: pointer;">
+       <path  d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+        </svg>
+       </button>
+
       </div>
     </div>
   </div>

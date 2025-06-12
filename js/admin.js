@@ -17,7 +17,7 @@ async function crearProducto() {
   formData.append("cantidad", cantidad);
 
   try {
-    const response = await fetch("https://localhost:7256/api/Productos", {
+    const response = await fetch("https://localhost:7042/api/Productos", {
       method: "POST",
       body: formData
     });
@@ -37,7 +37,7 @@ async function crearProducto() {
 // Función para cargar productos en modo CRUD visual
 async function cargarProductos() {
   try {
-    const res = await fetch("https://localhost:7256/api/Productos");
+    const res = await fetch("https://localhost:7042/api/Productos");
     const productos = await res.json();
 
     const container = document.getElementById("productos-container");
@@ -64,7 +64,7 @@ async function cargarProductos() {
         <label>Cantidad</label>
         <input class="cantidad" type="number" value="${producto.cantidad}" data-original="${producto.cantidad}">
           <label>Imagen</label>
-        <img src="https://localhost:7256/${producto.imagenUrl}" width="100">
+        <img src="https://localhost:7042/${producto.imagenUrl}" width="100">
         <br>
         <button onclick="actualizarProducto(${producto.id}, this)">Actualizar</button>
         <button onclick="eliminarProducto(${producto.id})">Eliminar</button>
@@ -93,7 +93,7 @@ async function actualizarProducto(id, btn) {
   const cantidad = parseInt(cantidadInput.value);
   const descripcion = descripcionInput.value;
   const medidas = medidasInput.value;
-  const imagenUrl = imagen.replace("https://localhost:7256/", "");
+  const imagenUrl = imagen.replace("https://localhost:7042/", "");
 
   // Comparar con valores originales
   const sinCambios =
@@ -119,7 +119,7 @@ async function actualizarProducto(id, btn) {
   };
 
   try {
-    const res = await fetch(`https://localhost:7256/api/Productos/${id}`, {
+    const res = await fetch(`https://localhost:7042/api/Productos/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -142,7 +142,7 @@ async function eliminarProducto(id) {
   if (!confirm("¿Estás seguro de eliminar este producto?")) return;
 
   try {
-    const res = await fetch(`https://localhost:7256/api/Productos/${id}`, {
+    const res = await fetch(`https://localhost:7042/api/Productos/${id}`, {
       method: "DELETE"
     });
 
@@ -177,7 +177,7 @@ window.addEventListener("DOMContentLoaded", cargarProductos);
 
    async function obtenerUsuarios() {
   try {
-    const res = await fetch('https://localhost:7256/api/Usuario');
+    const res = await fetch('https://localhost:7042/api/Usuario');
     const usuarios = await res.json();
     const contenedor = document.getElementById('usuarios-container');
     contenedor.innerHTML = ''; // Limpiar antes
@@ -274,7 +274,7 @@ async function actualizarUsuario(id, btn) {
   }
 
   try {
-    const response = await fetch(`https://localhost:7256/api/Usuario/${id}/rol`, {
+    const response = await fetch(`https://localhost:7042/api/Usuario/${id}/rol`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -300,7 +300,7 @@ async function actualizarUsuario(id, btn) {
 
     function eliminarUsuario(id) {
       if (confirm("¿Estás seguro de eliminar este usuario?")) {
-        fetch(`https://localhost:7256/api/Usuario/${id}`, {
+        fetch(`https://localhost:7042/api/Usuario/${id}`, {
           method: 'DELETE'
         }).then(res => {
           if (res.ok) {
